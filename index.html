@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✅ FIXED TITLE -->
+<title>Meta Whale</title>
+
+<style>
+body { margin:0; font-family: Arial; color:white; overflow:hidden; }
+
+/* ===== MAIN ===== */
+#main{
+  height:100vh;
+  background:url("https://i.ibb.co/mFRsDrgS/Screenshot-2026-0409-235453.png") no-repeat center/cover;
+  position:relative;
+  transition:1s;
+}
+
+/* ===== TOP ===== */
+.top{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:20px;
+  z-index:10;
+}
+.top div{cursor:pointer}
+
+/* ===== LANG BOX ===== */
+.lang-box{
+  display:none;
+  position:absolute;
+  top:50px;
+  right:0;
+  background:#0a2a5c;
+  padding:10px;
+  border-radius:10px;
+}
+.lang-box div{
+  padding:5px 10px;
+  color:#cce6ff;
+}
+
+/* ===== SCROLL ===== */
+.scroll{
+  position:absolute;
+  bottom:40px;
+  width:100%;
+  text-align:center;
+  transition:0.5s;
+}
+
+/* 🔥 ARC LINES */
+.arc-wrap{
+  position:absolute;
+  left:50%;
+  bottom:120px;
+  transform:translateX(-50%);
+  width:260px;
+  height:260px;
+  opacity:0;
+}
+
+.arc{
+  fill:none;
+  stroke:#9fdcff;
+  stroke-width:1.5;
+  opacity:0.7;
+  filter:drop-shadow(0 0 6px #4cc9ff);
+  transform-origin:50% 50%;
+}
+
+.active .a1{ animation:spin1 6s linear infinite; }
+.active .a2{ animation:spin2 9s linear infinite; }
+.active .a3{ animation:spin3 12s linear infinite; }
+
+@keyframes spin1{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+@keyframes spin2{
+  from{transform:rotate(360deg);}
+  to{transform:rotate(0deg);}
+}
+@keyframes spin3{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(-360deg);}
+}
+
+/* ===== CENTER ===== */
+.center{
+  display:none;
+  position:absolute;
+  top:60%;
+  width:100%;
+  text-align:center;
+  opacity:0;
+  transition:1s;
+}
+
+.title{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.desc{
+  font-size:14px;
+  color:#ccc;
+  margin-bottom:20px;
+}
+
+/* BUTTONS */
+.btn{
+  margin:10px;
+  padding:12px 30px;
+  border-radius:30px;
+  border:none;
+  color:white;
+  cursor:pointer;
+}
+
+.blue{ background:#3b82f6; }
+.violet{ background:#7c3aed; }
+
+/* ===== ERROR ===== */
+#error{
+  position:fixed;
+  top:-100px;
+  left:50%;
+  transform:translateX(-50%);
+  background:red;
+  padding:10px 20px;
+  border-radius:10px;
+  transition:0.5s;
+}
+
+/* ===== MENU ===== */
+#menu{
+  display:none;
+  height:100vh;
+  background:linear-gradient(#000428,#004e92);
+  text-align:center;
+  padding-top:40px;
+}
+#menu div{margin:18px; cursor:pointer}
+
+/* ===== SUPPORT ===== */
+#support{
+  display:none;
+  height:100vh;
+  background:linear-gradient(#1e3c72,#2a5298);
+  text-align:center;
+  padding-top:40px;
+}
+
+.logo img{
+  width:110px;
+  border-radius:10px;
+}
+
+textarea{
+  width:80%;
+  height:160px;
+  border-radius:10px;
+}
+button{
+  margin-top:20px;
+  padding:15px 30px;
+  background:#3b5cff;
+  color:white;
+  border:none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="error">Web3 Installation Error 404 Not Found</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <div class="top">
+    <div onclick="toggleLang()">EN
+      <div class="lang-box" id="langBox">
+        <div>English</div>
+        <div>Hindi</div>
+        <div>Vietnamese</div>
+        <div>Chinese</div>
+        <div>Urdu</div>
+      </div>
+    </div>
+
+    <div onclick="showError()">Connect wallet</div>
+    <div onclick="openMenu()">☰</div>
+  </div>
+
+  <!-- ARC -->
+  <div class="arc-wrap" id="arcWrap">
+    <svg viewBox="0 0 400 400">
+      <path class="arc a1" d="M50 200 A150 150 0 0 1 350 200"/>
+      <path class="arc a2" d="M80 200 A120 120 0 0 1 320 200"/>
+      <path class="arc a3" d="M20 200 A180 180 0 0 1 380 200"/>
+    </svg>
+  </div>
+
+  <!-- SCROLL -->
+  <div class="scroll" id="scroll">
+    SCROLL
+  </div>
+
+  <!-- CENTER -->
+  <div class="center" id="center">
+    <div class="title">Meta Whale</div>
+    <div class="desc">
+      An ecosystem uniting games and virtual reality. Explore new formats of digital interaction.
+    </div>
+
+    <div class="btn blue" onclick="showError()">Get Started</div>
+    <div class="btn violet" onclick="showError()">Learn More</div>
+  </div>
+
+</div>
+
+<!-- MENU + SUPPORT same as before -->
+
+<script>
+let triggered=false;
+
+window.addEventListener("wheel", ()=>{
+  if(triggered) return;
+  triggered=true;
+
+  scroll.style.opacity="0";
+  main.style.transform="translateY(-120px)";
+
+  arcWrap.style.opacity="1";
+  arcWrap.classList.add("active");
+
+  center.style.display="block";
+  setTimeout(()=>{ center.style.opacity="1"; },400);
+});
+
+function showError(){
+  error.style.top="20px";
+  setTimeout(()=>error.style.top="-100px",2000);
+}
+
+function openMenu(){
+  main.style.display="none";
+  menu.style.display="block";
+}
+function home(){
+  menu.style.display="none";
+  support.style.display="none";
+  main.style.display="block";
+}
+function openSupport(){
+  menu.style.display="none";
+  support.style.display="block";
+}
+
+function toggleLang(){
+  let box=document.getElementById("langBox");
+  box.style.display = box.style.display==="block"?"none":"block";
+}
+</script>
+
+</body>
+  </html>
